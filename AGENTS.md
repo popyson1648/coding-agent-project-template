@@ -55,3 +55,4 @@ Use the files under `.template/` when creating or refreshing project documentati
 ## CI Rules
 
 - Keep `.github/workflows/ci.yml` aligned with the current CI verification workflow.
+
