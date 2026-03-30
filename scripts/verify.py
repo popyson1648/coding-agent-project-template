@@ -5,9 +5,8 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
-from pathlib import Path
 import tomllib
-
+from pathlib import Path
 
 DEFAULT_ORDER = [
     "format",
@@ -80,10 +79,7 @@ def collect_phases(config: dict) -> list[dict]:
         print("[phases] must be a TOML table", file=sys.stderr)
         raise SystemExit(2)
 
-    phases_by_name = {
-        name: normalize_phase(name, entry)
-        for name, entry in raw_phases.items()
-    }
+    phases_by_name = {name: normalize_phase(name, entry) for name, entry in raw_phases.items()}
 
     ordered: list[dict] = []
 
@@ -207,4 +203,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

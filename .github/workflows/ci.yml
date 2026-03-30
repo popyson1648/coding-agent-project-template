@@ -14,5 +14,10 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
       - name: Run verification
         run: python3 scripts/verify.py --mode ci

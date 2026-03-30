@@ -2,23 +2,41 @@ version = 1
 
 [phases.format]
 enabled = true
-command = ""
+command = "python3 -m ruff format --check ."
+run_on_edit = true
+run_pre_commit = true
+run_pre_push = true
+run_in_ci = true
 
 [phases.lint]
 enabled = true
-command = ""
+command = "python3 -m ruff check ."
+run_on_edit = true
+run_pre_commit = true
+run_pre_push = true
+run_in_ci = true
 
 [phases.typecheck]
 enabled = true
-command = ""
+command = "python3 -m mypy"
+run_on_edit = true
+run_pre_commit = true
+run_pre_push = true
+run_in_ci = true
 
 [phases.build]
 enabled = true
-command = ""
+command = "python3 -m compileall src tests scripts"
+run_pre_push = true
+run_in_ci = true
 
 [phases.test_unit]
 enabled = true
-command = ""
+command = "python3 -m pytest"
+run_on_edit = true
+run_pre_commit = true
+run_pre_push = true
+run_in_ci = true
 
 [phases.test_integration]
 enabled = false
