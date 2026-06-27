@@ -10,6 +10,16 @@
 - Keep project documents short, concrete, and written for new contributors and coding agents.
 - Keep plans, implementation, verification, and project docs consistent with each other when a workflow changes.
 
+## Evidence and Research
+
+- Inspect the repository and current environment before relying on external assumptions.
+- Before a material proposal, decision, or implementation depends on an uncertain, externally defined, or version-dependent fact, search the web and verify it.
+- Prefer current official documentation, specifications, standards, upstream source, and upstream release notes. Use secondary sources only when primary evidence is unavailable, and state that limitation.
+- Increase the depth and independence of corroboration with the impact and uncertainty of the decision.
+- Cite the evidence used and separate verified facts from inferences, proposals, and unresolved uncertainty.
+- Do not put secrets, credentials, private source, or other sensitive data in search queries.
+- Web research is optional for stable self-evident facts and facts established directly from the local repository or environment.
+
 ## Review Expectations
 
 - When a user asks to implement from an approved plan without naming a phase or step range, pick exactly one reviewable chunk:
