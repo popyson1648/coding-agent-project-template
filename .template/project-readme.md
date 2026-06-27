@@ -7,3 +7,5 @@
 ## Minimum Setup
 
 ## Related Documents
+
+- `.project/conventions.md`
