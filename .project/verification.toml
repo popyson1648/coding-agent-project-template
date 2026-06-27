@@ -1,24 +1,32 @@
 version = 1
 
+# Phases start disabled so a new project's first CI run passes.
+# Enable a phase and set its command as you add the matching tool.
+
 [phases.format]
-enabled = true
+enabled = false
 command = ""
+reason = "No formatter configured yet. Enable and set a command when you add one."
 
 [phases.lint]
-enabled = true
+enabled = false
 command = ""
+reason = "No linter configured yet. Enable and set a command when you add one."
 
 [phases.typecheck]
-enabled = true
+enabled = false
 command = ""
+reason = "No type checker configured yet. Enable and set a command when you add one."
 
 [phases.build]
-enabled = true
+enabled = false
 command = ""
+reason = "No build step configured yet. Enable and set a command when you add one."
 
 [phases.test_unit]
-enabled = true
+enabled = false
 command = ""
+reason = "No unit test suite configured yet. Enable and set a command when you add one."
 
 [phases.test_integration]
 enabled = false
