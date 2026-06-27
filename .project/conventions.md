@@ -5,6 +5,15 @@
 - Use short, descriptive task slugs in branch names.
 - Prefer `feature/phase{N}-{M}-{slug}` for plan-driven work and `feature/issue-{N}-{slug}` for direct issue work.
 
+## Durable Implementation
+
+- Make each change complete, maintainable, appropriately tested, and consistent with the codebase for its current known requirements.
+- Do not knowingly ship an avoidable deficiency on the assumption that it will be repaired later.
+- Use clear names, cohesive responsibilities, explicit interfaces, and existing project patterns.
+- Choose the simplest design that satisfies current requirements; do not add abstractions, extension points, or functionality for hypothetical future needs.
+- Document material tradeoffs. If a constraint makes debt unavoidable, record its reason, scope, impact, and follow-up or revisit condition in a tracked task or decision.
+- Treat refactoring required by genuinely new requirements as normal evolution, not proof that the earlier implementation failed this standard.
+
 ## Code Style
 
 - Keep project documents short, concrete, and written for new contributors and coding agents.
