@@ -24,17 +24,24 @@ Use the files under `.template/` when creating or refreshing project documentati
 - Keep the documents short and concrete.
 - Store decision history in `.decisions/`.
 - Store task plans in `.plans/`.
+- In a repository with multiple components, mirror component names as subdirectories under `.plans/`, `.decisions/`, and `.project/`; keep single-component repositories flat.
 
 ## Plan Rules
 
 - Create one Markdown file per task under `.plans/`.
 - Use `.plans/TEMPLATE.md` as the starting point.
+- Name plan files `issue-{N}-{slug}.md` for issue-driven work, otherwise `{slug}.md`.
+- Keep the `Status` section current: `draft`, `approved`, `in-progress`, `done`, or `abandoned`.
+- Track step completion in the `Progress` section with `[ ]`, `[~]`, and `[x]`.
 
 ## Decision Rules
 
 - Create one Markdown file per decision under `.decisions/`.
 - Record design, rule, structure, and policy decisions.
 - Use `.decisions/TEMPLATE.md` as the starting point.
+- Name decision files with a short noun-phrase slug: `{slug}.md`.
+- Link related issues, pull requests, and superseding or superseded decisions in the `Related` section.
+- When a decision replaces an older one, set the old record's `Status` to `superseded` and link both records.
 
 ## Project Documentation Rules
 

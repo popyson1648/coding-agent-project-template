@@ -3,6 +3,11 @@ version = 1
 # Phases start disabled so a new project's first CI run passes.
 # Enable a phase and set its command as you add the matching tool.
 
+[phases.secrets]
+enabled = false
+command = ""
+reason = "No secrets scanner configured yet. Install gitleaks and enable this phase; see .project/testing.md."
+
 [phases.format]
 enabled = false
 command = ""

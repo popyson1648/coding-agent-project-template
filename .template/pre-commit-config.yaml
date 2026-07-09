@@ -1,8 +1,8 @@
 repos:
   - repo: local
     hooks:
-      - id: verify-pre-commit
-        name: verify-pre-commit
-        entry: python3 scripts/verify.py --mode pre-commit
+      - id: verify
+        name: verify
+        entry: python3 scripts/verify.py
         language: system
         pass_filenames: false

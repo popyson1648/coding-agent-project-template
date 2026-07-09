@@ -1,5 +1,17 @@
 # Plan
 
+## Status
+
+draft
+
+## Date
+
+YYYY-MM-DD
+
+## Issues
+
+None
+
 ## Goal
 
 ## Scope
@@ -9,6 +21,10 @@
 ## Assumptions
 
 ## Steps
+
+## Progress
+
+- [ ] Step 1:
 
 ## Verification
 

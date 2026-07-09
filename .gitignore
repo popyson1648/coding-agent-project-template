@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.venv/
+venv/
+
+# OS and editor files
+.tmp/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
