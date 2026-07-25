@@ -17,6 +17,28 @@ This repository must contain:
 
 Use the files under `.template/` when creating or refreshing project documentation and config files.
 
+## Subagent Delegation
+
+- When the environment supports subagents, the main agent may proactively delegate self-contained
+  research, repository exploration, comparisons, independent review, or high-output verification
+  when delegation provides a material context, specialization, or latency benefit.
+- Keep small, tightly coupled work and work requiring frequent shared-context decisions in the main
+  agent.
+- State the objective, bounded scope, expected output and evidence, available tools and sources,
+  allowed actions and authority limits, prohibited actions, and dependencies in every delegation.
+- Delegation never expands the authority granted to the main agent. A subagent's allowed actions
+  must remain within the current task and be a subset of the main agent's authority.
+- Default research and review to read-only access. Give an editing subagent ownership of only an
+  explicitly bounded area.
+- Run tasks in parallel only when they have no unresolved dependency and cannot conflict through
+  files, branches, generated artifacts, or external state. Use isolated workspaces or explicit
+  non-overlapping ownership for parallel edits.
+- Treat subagent output as evidence to inspect. The main agent owns conflict resolution, change
+  integration, post-integration verification, final judgment, and the user-facing report.
+- Never delegate merge, deployment, or irreversible external actions to a subagent.
+- Do not require subagents when the environment lacks them or delegation would add more coordination
+  cost than value.
+
 ## Document Rules
 
 - Write files under `.project/` in English.

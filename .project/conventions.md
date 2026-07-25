@@ -45,6 +45,27 @@
 - While the user is consulting, asking, or thinking out loud, do not create issues, post to external services, change files, or change settings without the user's confirmation.
 - When such a change looks necessary, present the intended approach or draft first and get confirmation.
 
+## Subagent Delegation
+
+- Delegate proactively only when the environment supports it and the work is self-contained enough
+  to return a checkable result. Good candidates include research, repository exploration,
+  comparisons, independent review, log inspection, and high-output verification.
+- Keep small changes, tightly coupled phases, and work needing frequent shared-context decisions in
+  the main agent.
+- Give every subagent a delegation brief containing the objective, bounded scope, expected output
+  and evidence, available tools and sources, allowed actions and authority limits, prohibited
+  actions, and dependencies.
+- Delegation cannot expand the authority granted to the main agent. Keep every allowed action within
+  the current task and within the main agent's authority.
+- Default research and review to read-only access. Limit editing work to an explicitly owned area.
+- Parallelize only tasks with no unresolved dependency and no possible conflict through files,
+  branches, generated artifacts, or external state. Isolate parallel edits or assign explicit
+  non-overlapping ownership.
+- The main agent must inspect returned evidence, resolve disagreements, integrate changes, rerun
+  verification after integration, make the final decision, and report the result.
+- Never delegate merge, deployment, or irreversible external actions. Do not use a subagent when
+  coordination cost outweighs the expected benefit.
+
 ## Scoped Suggestions
 
 - Make an unrequested suggestion only when it clearly relates to the current work and most of the following hold:
