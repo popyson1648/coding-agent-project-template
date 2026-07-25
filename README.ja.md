@@ -16,6 +16,7 @@
 
 - [含まれるもの](#含まれるもの)
 - [新規プロジェクトを始める](#新規プロジェクトを始める)
+- [検証を設定する](#検証を設定する)
 - [既存プロジェクトに導入する](#既存プロジェクトに導入する)
 - [テンプレートを最新版に更新する](#テンプレートを最新版に更新する)
 - [必要環境](#必要環境)
@@ -40,6 +41,41 @@
 2. `.template/` の雛形をもとに `.project/` のドキュメントを記入する。
 3. 実際のツールを導入したフェーズから `.project/verification.toml` で有効化する。
 4. ローカルフックをインストールする: `pre-commit install`。
+
+## 検証を設定する
+
+`python3 scripts/verify.py` は、ローカル作業と完了確認で使う全検証コマンドです。
+CI はワークフローとジョブを常に起動し、プッシュまたはプルリクエストの base/head SHA と `--event changed` を渡して、影響を受けるフェーズを選択します。
+
+スキーマのバージョン2は、変更影響を判定するために三つの情報を追加します。
+
+- **入力**：`[inputs.<name>]` は、リポジトリ相対のパスパターンを名前付き入力に対応づけます。
+  `depends_on` は、その入力に影響を与える別の入力を宣言します。
+- **フェーズポリシー**：フェーズの `inputs` は対象の入力を指定します。
+  `when` は `["always"]` とするか、`changed`、`scheduled`、`manual` を組み合わせます。
+- **全検証パス**：`[selection].selector_paths` は選択規則を定義するファイルを指定し、`global_paths` は全対象フェーズの実行が必要な共有ファイルを指定します。
+
+テンプレートの初期設定は、`**` に一致する単一の `repository` 入力です。
+プロジェクトのパス所有関係と依存関係を正確に記述できるまでは、既知の変更に対して有効な全フェーズを実行します。
+未知のパス、`selector_paths` または `global_paths` に一致する変更、Git 比較情報を取得できない場合も、有効な全フェーズへフォールバックします。
+
+```bash
+# 全検証
+python3 scripts/verify.py
+
+# 二つの Git リビジョンを比較
+python3 scripts/verify.py --event changed --base <base-sha> --head <head-sha>
+
+# 変更パスを直接指定
+python3 scripts/verify.py --event changed --changed-file src/example.py
+
+# scheduled または manual のポリシーを確認
+python3 scripts/verify.py --event scheduled --list
+python3 scripts/verify.py --event manual --list
+```
+
+`scheduled` と `manual` はフェーズポリシーを選択する値であり、スケジューラーや手動ワークフローのトリガーを作成する設定ではありません。
+設定契約とフォールバック条件は `.project/testing.md` を参照してください。
 
 ## 既存プロジェクトに導入する
 
@@ -68,7 +104,8 @@ GitHub の "Use this template" は新規リポジトリしか作成できない�
 
 3. すでに存在していたものは手作業で整合させる: 既存の `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` にテンプレートの
    ルールを統合し(3ファイルの内容は同一に保つ)、既存の pre-commit と CI 設定に検証ステップを統合して、
-   どちらも `python3 scripts/verify.py` を実行するようにする。
+   pre-commit は引数なしの全検証を維持し、CI は明示的な base/head SHA と
+   `--mode ci --event changed` を渡す。
 4. `.template/` をもとに `.project/` のドキュメントを記入し、`.project/verification.toml` に実際のコマンドを
    設定する(フェーズは最初は無効なので、有効化するまで CI は green のままです)。
 5. 検証して後片付けする:

@@ -16,6 +16,7 @@ After adopting the template, replace this README with your project's own README.
 
 - [What You Get](#what-you-get)
 - [Start a New Project](#start-a-new-project)
+- [Configure Verification](#configure-verification)
 - [Adopt Into an Existing Project](#adopt-into-an-existing-project)
 - [Update From the Template](#update-from-the-template)
 - [Requirements](#requirements)
@@ -40,6 +41,45 @@ After adopting the template, replace this README with your project's own README.
 2. Fill in the `.project/` documents from the skeletons in `.template/`.
 3. Enable verification phases in `.project/verification.toml` as you add real tooling.
 4. Install the local hook: `pre-commit install`.
+
+## Configure Verification
+
+`python3 scripts/verify.py` remains the full-verification command for local work and completion
+checks. CI keeps the workflow and job running, then passes `--event changed` with the push or
+pull-request base/head SHAs so the runner can select affected phases.
+
+Schema version 2 adds three pieces of impact metadata:
+
+- `[inputs.<name>]` maps repository-relative path patterns to a named input. `depends_on` declares
+  which other inputs can affect it.
+- A phase's `inputs` selects its scopes. Set `when` to `["always"]`, or combine `changed`,
+  `scheduled`, and `manual`.
+- `[selection].selector_paths` identifies selection definitions, and `global_paths` identifies
+  shared files whose changes require every eligible phase.
+
+The template starts with one broad `repository` input matching `**`. This intentionally runs every
+enabled phase for every known change until the project has an accurate path and dependency map.
+Unknown paths, selector or global changes, and unavailable Git comparison data also fall back to all
+eligible phases.
+
+```bash
+# Full verification
+python3 scripts/verify.py
+
+# Compare two Git revisions
+python3 scripts/verify.py --event changed --base <base-sha> --head <head-sha>
+
+# Supply a changed path directly
+python3 scripts/verify.py --event changed --changed-file src/example.py
+
+# Inspect scheduled or manual policies
+python3 scripts/verify.py --event scheduled --list
+python3 scripts/verify.py --event manual --list
+```
+
+The `scheduled` and `manual` values select phase policies; they do not create a scheduler or a
+manual workflow trigger. See `.project/testing.md` for the configuration contract and fallback
+behavior.
 
 ## Adopt Into an Existing Project
 
@@ -68,7 +108,8 @@ GitHub's "Use this template" only creates new repositories, so adoption is a fil
 
 3. Reconcile by hand anything that already existed: merge the template's rules into your existing
    `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` (keep the three identical), and merge the verification step
-   into your existing pre-commit and CI configs so both run `python3 scripts/verify.py`.
+   into your existing pre-commit and CI configs. Keep pre-commit on plain full verification and pass
+   `--mode ci --event changed` with explicit base/head SHAs from CI.
 4. Fill in the `.project/` documents from `.template/` and put your real commands into
    `.project/verification.toml` (phases start disabled so CI stays green until you enable them).
 5. Verify and clean up:

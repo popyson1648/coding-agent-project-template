@@ -1,62 +1,106 @@
-version = 1
+version = 2
 
 # Phases start disabled so a new project's first CI run passes.
 # Enable a phase and set its command as you add the matching tool.
+# The broad repository input is conservative: every known change affects every enabled phase.
+
+[selection]
+selector_paths = [
+  ".project/verification.toml",
+  ".template/verification.toml",
+  "scripts/verify.py",
+]
+global_paths = [
+  ".github/workflows/ci.yml",
+  ".template/ci.yml",
+  ".pre-commit-config.yaml",
+  ".template/pre-commit-config.yaml",
+]
+
+[inputs.repository]
+paths = ["**"]
+depends_on = []
 
 [phases.secrets]
 enabled = false
 command = ""
 reason = "No secrets scanner configured yet. Install gitleaks and enable this phase; see .project/testing.md."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.format]
 enabled = false
 command = ""
 reason = "No formatter configured yet. Enable and set a command when you add one."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.lint]
 enabled = false
 command = ""
 reason = "No linter configured yet. Enable and set a command when you add one."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.typecheck]
 enabled = false
 command = ""
 reason = "No type checker configured yet. Enable and set a command when you add one."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.build]
 enabled = false
 command = ""
 reason = "No build step configured yet. Enable and set a command when you add one."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.test_unit]
 enabled = false
 command = ""
 reason = "No unit test suite configured yet. Enable and set a command when you add one."
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.test_integration]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.test_e2e]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.test_component]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.test_contract]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.accessibility]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.performance]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
 
 [phases.bundle_size]
 enabled = false
 command = ""
+when = ["changed", "scheduled", "manual"]
+inputs = ["repository"]
