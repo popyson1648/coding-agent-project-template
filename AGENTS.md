@@ -39,6 +39,65 @@ Use the files under `.template/` when creating or refreshing project documentati
 - Do not require subagents when the environment lacks them or delegation would add more coordination
   cost than value.
 
+## Autonomous Execution Loop
+
+- For the current approved reviewable chunk of an implementation or repair task, autonomously repeat
+  investigate and plan, act, verify, and adapt until a completion or stop condition is reached. Do
+  not require the user to invoke a product-specific loop command.
+- Before the first implementation action, record observable success criteria, required verification,
+  stop conditions, approval boundaries, and task-specific resource or iteration limits in the task
+  plan.
+- A finite total-cycle limit is mandatory. When the plan does not set another finite limit, allow at
+  most eight cycles for the current chunk. Record stricter time, context, or cost limits when the
+  environment exposes them.
+- Use the task's `.plans/` file as durable state across turns, context compaction, handoffs, and
+  agent products. Keep its `Status`, `Progress`, `Loop State`, and `Verification` evidence current at
+  each meaningful verification cycle and before a handoff.
+- In each cycle:
+  1. Inspect the current plan, repository and external state, and the latest verification evidence.
+  2. Choose the smallest action that can produce new evidence toward an unmet success criterion.
+  3. Act only within the approved scope and authority.
+  4. Run the narrowest relevant check, then the configured broader verification when warranted.
+  5. Record the observation, update progress, and select the next action from the evidence.
+- After a failed check, diagnose the result and change the hypothesis, implementation, or test. Do
+  not repeat the same action against materially unchanged state. One documented repeat is allowed
+  only to test a plausible transient or flaky failure.
+- Continue only while the loop remains within authority and limits. Count a cycle as measurable
+  progress when it satisfies a criterion, reproduces or narrows a failure, supports or rejects a
+  stated hypothesis, or identifies required external input. If the plan has no stricter limit, stop
+  after two consecutive cycles without measurable progress, or immediately when no materially
+  different evidence-backed next action is available.
+- Do not change scope, success criteria, required verification, or accepted risk merely to let the
+  loop continue or pass. Do not disable checks, weaken assertions, broaden suppressions, or change
+  expected results without evidence that the verification is wrong and the exception rules are met.
+- After the first implementation action, do not raise, remove, or reset a cycle, no-progress, time,
+  context, or cost limit without explicit user or maintainer approval for a new finite limit.
+- Treat `scripts/verify.py` as evidence only for the relevant phases it actually runs. If required
+  behavior has no enabled coverage, run an appropriate additional check or stop and report the
+  verification gap.
+- Mark work complete only when every success criterion is supported by evidence on the integrated
+  state, all required verification has run and passed, and final review finds no unresolved material
+  concern except a risk explicitly accepted by the user or maintainer under the existing approval
+  rules. A final response, plan checkbox, subagent report, or successful worker exit is not
+  completion evidence by itself.
+- Stop and report instead of continuing when success is reached; an approval or permission boundary
+  is reached; requirements conflict; a required external dependency or tool is unavailable; safety
+  or security is uncertain; verification cannot establish success; a resource limit is reached; or
+  the no-progress limit is reached.
+- On a non-success stop, keep the task and current step non-done and record the stop reason, last
+  evidence, attempted distinct approaches, and recommended next action. Ask the user only for the
+  specific decision or authority needed to resume; do not mark the plan `done` or `abandoned` unless
+  its lifecycle actually ended.
+- The loop never expands the user's authorization and never implies permission for external writes
+  such as issue or PR changes, messages, or pushes; destructive or irreversible actions; secret or
+  credential access; purchases; merge, deploy, or publish; weakening checks; or accepting material
+  risk.
+- Subagent delegation does not reset loop limits or transfer integration, reverification, stopping,
+  or completion judgment away from the main agent.
+- Product-native loops, goals, hooks, schedulers, checkpoints, worktrees, and subagents may
+  accelerate this contract but are optional. The portable core is repository instructions, durable
+  plan state, and executable project verification.
+
 ## Document Rules
 
 - Write files under `.project/` in English.

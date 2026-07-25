@@ -66,6 +66,71 @@
 - Never delegate merge, deployment, or irreversible external actions. Do not use a subagent when
   coordination cost outweighs the expected benefit.
 
+## Autonomous Execution Loop
+
+### Entry Contract
+
+- Apply the loop to one approved reviewable chunk at a time. Before implementation, record the
+  chunk's observable success criteria, required verification, stop conditions, approval boundaries,
+  and task-specific iteration, time, context, or cost limits in its `.plans/` file.
+- Every chunk has a finite total-cycle limit. Use the plan's explicit limit or, when it has none, a
+  default maximum of eight cycles. Add stricter time, context, or cost limits when the environment
+  exposes them.
+- Treat product-native loop commands, hooks, schedulers, worktrees, checkpoints, and agent APIs as
+  optional adapters. The repository contract is the instruction files, durable plan state, and
+  executable verification available to any capable coding agent.
+
+### Cycle
+
+- Repeat this evidence-driven sequence without waiting for another user prompt while it remains
+  within the approved scope and authority:
+  1. Observe the current plan, repository and relevant external state, and latest evidence.
+  2. Select one bounded action that can produce new evidence for an unmet success criterion.
+  3. Perform the action and run the narrowest relevant verification.
+  4. Interpret the result, update `Progress`, `Loop State`, `Verification`, and `Open Issues`, and
+     choose the next action from that evidence.
+- Before completion, run every required check on the integrated state. After a failure, follow
+  Troubleshooting and Fix and Verification Integrity: state a hypothesis, change the implementation
+  or hypothesis, rerun the check that exposed the problem, and run affected broader verification.
+- Count a cycle as material progress only when it satisfies a success criterion, reproduces or
+  narrows a failure, supports or rejects a stated hypothesis, or identifies required external input.
+  Stop after the plan's limit, after two consecutive cycles without material progress when no
+  stricter limit exists, or immediately when no materially different evidence-backed action remains.
+- Do not repeat the same action against materially unchanged state. One documented repeat is allowed
+  only to test a plausible transient or flaky result; a repeated result requires a changed hypothesis
+  or a stop.
+
+### Evidence and Completion
+
+- Record exact verification commands and concise observed outcomes in the plan. A zero exit from
+  `scripts/verify.py` supports only the relevant enabled phases that actually ran; skipped or
+  unconfigured coverage is not evidence that the corresponding behavior works.
+- Do not alter scope, success criteria, required verification, or accepted risk to make the loop
+  pass. Do not disable checks, weaken assertions, broaden suppressions, or change expected results
+  except under Fix and Verification Integrity's evidence and approval rules.
+- After the first implementation action, do not raise, remove, or reset a cycle, no-progress, time,
+  context, or cost limit without explicit user or maintainer approval for a new finite limit.
+- Complete the chunk only when all success criteria have evidence on the integrated state, all
+  required verification has run and passed, plan state is current, and a final review finds no
+  unresolved material concern in correctness, consistency, regressions, maintainability, or
+  performance risk, except a risk explicitly accepted under the existing approval rules.
+- A final response, plan checkbox, subagent report, successful worker or session exit, or repeated
+  assertion is not completion evidence by itself. Subagent work does not reset loop limits, and the
+  main agent retains integration, reverification, stopping, and completion judgment.
+
+### Stop and Escalation
+
+- Stop rather than improvise when the loop reaches success, a required approval or permission, a
+  material scope or criteria change, conflicting requirements, a required prerequisite or tool is
+  unavailable and no approved equivalent can establish success, a verification gap, safety or
+  security uncertainty, an unresolved material risk, a resource limit, or the no-progress
+  condition.
+- A loop does not expand authority. It cannot authorize external writes, destructive or irreversible
+  actions, purchases, secret access, merge, deploy, publish, or acceptance of material risk.
+- When stopping before completion, leave `Status` and the current progress item non-done. Record the
+  reason, last evidence, attempted distinct hypotheses, remaining risk, and exact input or approval
+  needed in `Loop State` and `Open Issues`, then report that specific need to the user.
+
 ## Scoped Suggestions
 
 - Make an unrequested suggestion only when it clearly relates to the current work and most of the following hold:
